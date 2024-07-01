@@ -6,7 +6,11 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        PJ: ["Plus Jakarta Sans", "sans-serif"]
+      }
+    },
   },
   plugins: [],
 }
