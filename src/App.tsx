@@ -1,15 +1,16 @@
 import Editor from '@monaco-editor/react';
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import ProjectTab from './panels/project_tab';
+import Menu from './panels/menu';
+import Explorer from './panels/explorer';
 
 function App() {
   return (
     <ProjectTab>
       <PanelGroup direction='horizontal' autoSaveId="code_editor"  className='flex flex-row'>
+        <Menu></Menu>
         <Panel defaultSize={25}>
-          <div className='w-full h-[100vh] bg-[#182228] text-white'>
-            File system
-          </div>
+          <Explorer/>
         </Panel>
         <PanelResizeHandle/>
         <Panel>
@@ -17,6 +18,7 @@ function App() {
               height="100vh"
               width="100%"
               theme="vs-dark"
+              language='javascript'
           />
         </Panel>
       </PanelGroup>

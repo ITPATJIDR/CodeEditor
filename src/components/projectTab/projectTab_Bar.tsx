@@ -3,6 +3,7 @@ import { ProjectTabList, ProjectTabType } from "../../interfaces/projectTab_Inte
 import { IoMdAdd } from "react-icons/io";
 import ProjectTabItem from "./projectTab_Item";
 import { open } from '@tauri-apps/api/dialog';
+import { invoke } from "@tauri-apps/api/tauri";
 import { extract_folder_name } from "../../utils/projectTab/projectTab_utils";
 
 
@@ -21,6 +22,9 @@ const ProjectTabBar = () => {
 			const newProjectItem: ProjectTabType = {
 				value: folder_name
 			}
+			await invoke('folder_path', { "path": selected[0] }).then(msg => {
+				console.log(msg);
+			})
 			setProjectItem([...projectItem, newProjectItem]);
 		} else if (selected === null) {
 			// user cancelled the selection
@@ -35,7 +39,7 @@ const ProjectTabBar = () => {
 	}
 
 	return (
-		<div className="flex h-12 bg-[#0c171e]">
+		<div className="flex h-12 bg-[#0c171e] border-b-2 border-[#242d35]">
 			<div className="flex items-center">
 				{projectItem.map((item: ProjectTabType, index:number) => {
 					return (
