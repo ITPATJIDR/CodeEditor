@@ -6,7 +6,7 @@ import { VscExtensions } from "react-icons/vsc";
 const Menu = () => {
 	return (
 		<div className='
-			w-[5vw] h-[100vh] p-2 bg-[#0d171f] 
+			w-[60px] h-[100vh] p-2 bg-[#0d171f] 
 			text-white border-r-2 border-[#242d35]
 			flex flex-col items-center
 		'>

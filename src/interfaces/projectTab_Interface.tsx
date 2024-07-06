@@ -11,7 +11,13 @@ export interface ProjectTabType {
 export interface ProjectTabItemProps {
 	item: ProjectTabType;
 	index: number
+	onSelectProjectTab: string
 	onClickDeleteProject: (key: number) => void
+	onClickSelectProjectTab: (value: string) => void
+}
+
+export interface ProjectTabState {
+  items: ProjectTabType[]
 }
 
 export type ProjectTabList = ProjectTabType[]

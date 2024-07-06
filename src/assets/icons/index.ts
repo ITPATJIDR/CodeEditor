@@ -1,0 +1,1 @@
+export { default as HexIcon } from './hexagon.png';

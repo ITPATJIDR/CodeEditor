@@ -1,15 +1,19 @@
-import { useState } from "react";
-import { ProjectTabList, ProjectTabType } from "../../interfaces/projectTab_Interface";
+import { ProjectTabType } from "../../interfaces/projectTab_Interface";
 import { IoMdAdd } from "react-icons/io";
 import ProjectTabItem from "./projectTab_Item";
 import { open } from '@tauri-apps/api/dialog';
 import { invoke } from "@tauri-apps/api/tauri";
 import { extract_folder_name } from "../../utils/projectTab/projectTab_utils";
+import { useDispatch, useSelector } from "react-redux";
+import { addNewProjectTab, deleteProjectTabByKey, selectProjectTab } from "../../store/feature/project_tab_slice";
+import { useState } from "react";
 
 
 const ProjectTabBar = () => {
 
-	const [projectItem, setProjectItem] = useState<ProjectTabList>([]);
+	const [onSelectProjectTab,setOnSelectProjectTab] = useState<string>("")
+	const dispatch = useDispatch()
+	const projectTab = useSelector(selectProjectTab)
 
 	const onClickAddNewProject = async () => {
 		const selected = await open({
@@ -25,7 +29,8 @@ const ProjectTabBar = () => {
 			await invoke('folder_path', { "path": selected[0] }).then(msg => {
 				console.log(msg);
 			})
-			setProjectItem([...projectItem, newProjectItem]);
+			dispatch(addNewProjectTab(newProjectItem))
+			console.log(projectTab)
 		} else if (selected === null) {
 			// user cancelled the selection
 		} else {
@@ -35,15 +40,26 @@ const ProjectTabBar = () => {
 	}
 
 	const onClickDeleteProject = (key: number) => {
-		setProjectItem(projectItem.filter((_, index) => index !== key));
+		dispatch(deleteProjectTabByKey(key))
+	}
+
+	const onClickSelectProjectTab = (value: string) => {
+		setOnSelectProjectTab(value)
 	}
 
 	return (
 		<div className="flex h-12 bg-[#0c171e] border-b-2 border-[#242d35]">
 			<div className="flex items-center">
-				{projectItem.map((item: ProjectTabType, index:number) => {
+				{projectTab.items.map((item: ProjectTabType, index:number) => {
 					return (
-						<ProjectTabItem key={index} item={item} index={index} onClickDeleteProject={onClickDeleteProject}/>
+						<ProjectTabItem 
+							key={index}
+							item={item} 
+							index={index} 
+							onClickDeleteProject={onClickDeleteProject}
+							onClickSelectProjectTab={onClickSelectProjectTab}
+							onSelectProjectTab={onSelectProjectTab}
+						/>
 					)
 				})}
 				<div className="w-10 h-5 flex items-center justify-center">
